@@ -28,6 +28,18 @@ variable "private_subnets" {
   default     = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
 }
 
+variable "database" {
+  description = "Database name"
+  type        = string
+  default     = "dev"
+}
+
+variable "dbuser" {
+  description = "Database username"
+  type        = string
+  default     = "dev_user"
+}
+
 variable "ssh_key_file" {
   description = "ssh-keygen generated public RSA key to SSH into an EC2 instance"
   type        = string

@@ -24,7 +24,12 @@ jobs:
           echo private_subnets=${{ vars.PRIVATE_SUBNETS }} >> prod.tfvars
           # echo root_account_ids=${{ secrets.AMI_USERS }} >> prod.tfvars
           # echo ami_prefix=${{ vars.AMI_PREFIX }} >> prod.tfvars
+          echo database=${{ vars.DATABASE }} >> prod.tfvars
+          echo dbuser=${{ vars.DBUSER }} >> prod.tfvars
           echo instance_type=${{vars.INSTANCE_TYPE}} >> prod.tfvars
+          echo device_name=${{vars.DEVICE_NAME}} >> prod.tfvars
+          echo volume_size=${{vars.VOLUME_SIZE}} >> prod.tfvars
+          echo volume_type=${{vars.VOLUME_TYPE}} >> prod.tfvars
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

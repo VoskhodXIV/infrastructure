@@ -69,3 +69,9 @@ variable "volume_type" {
   type        = string
   default     = "gp2"
 }
+
+variable "domain" {
+  description = "Domain name with TLD"
+  type        = string
+  default     = "dev.sydrawat.me"
+}

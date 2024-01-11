@@ -48,7 +48,9 @@ resource "aws_launch_template" "ec2_launch_template" {
   key_name                             = var.ssh_key_name
   # vpc_security_group_ids               = [var.api_sg_id]
 
-  # TODO: IAM Instance profile for s3 access policy
+  iam_instance_profile {
+    name = var.iam_ec2_s3_profile.name
+  }
 
   block_device_mappings {
     device_name = var.device_name

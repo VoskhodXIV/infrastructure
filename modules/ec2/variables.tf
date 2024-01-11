@@ -9,3 +9,4 @@ variable "volume_type" {}
 variable "database" {}
 variable "dbuser" {}
 variable "dbpassword" {}
+variable "iam_ec2_s3_profile" {}

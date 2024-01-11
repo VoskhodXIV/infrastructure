@@ -10,3 +10,4 @@ instance_type   = "xx.xxxxx"
 device_name     = "/xxx/xxxx"
 volume_size     = xx
 volume_type     = "xxx"
+domain          = "xxxx.xxx"

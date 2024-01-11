@@ -16,7 +16,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_bucket_lifecycle_config" {
   bucket = aws_s3_bucket.bucket.id
 
   rule {
-    id     = "rule-1"
+    id     = "move_to_IA"
     status = "Enabled"
     # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_lifecycle_configuration#transition
     transition {

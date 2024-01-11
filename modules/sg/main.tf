@@ -1,7 +1,7 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
-resource "aws_security_group" "api_sg" {
-  name        = "api-sg"
-  description = "Enable SSH,API,HTTP & HTTPS access on ports 22,1337,80 & 443"
+resource "aws_security_group" "alb_sg" {
+  name        = "alb-sg"
+  description = "Enable SSH,HTTP & HTTPS access on ports 22,80 & 443"
   vpc_id      = var.vpc_id
 
   ingress {
@@ -25,12 +25,23 @@ resource "aws_security_group" "api_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "${var.environment}-alb-sg"
+  }
+}
+
+resource "aws_security_group" "api_sg" {
+  name        = "api-sg"
+  description = "Enable API access on port 1337"
+  vpc_id      = var.vpc_id
+
   ingress {
-    description = "API Port"
-    from_port   = 1337
-    to_port     = 1337
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    description     = "API Port"
+    from_port       = 1337
+    to_port         = 1337
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
   }
 
   egress {
@@ -66,6 +77,6 @@ resource "aws_security_group" "db_sg" {
   # }
 
   tags = {
-    Name = "database"
+    Name = "${var.environment}-db-sg"
   }
 }

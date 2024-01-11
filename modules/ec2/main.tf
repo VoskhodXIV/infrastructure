@@ -1,4 +1,5 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami
+# TODO: Use custom Packer-built AMI
 data "aws_ami" "ubuntu" {
   most_recent = true
 
@@ -18,7 +19,7 @@ data "aws_ami" "ubuntu" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
 resource "aws_instance" "ec2" {
   ami                         = data.aws_ami.ubuntu.id
-  instance_type               = "t2.micro"
+  instance_type               = var.instance_type
   associate_public_ip_address = true
   vpc_security_group_ids      = [var.api_sg_id]
   subnet_id                   = var.public_subnets_id[0]
@@ -27,9 +28,9 @@ resource "aws_instance" "ec2" {
 
   ebs_block_device {
     delete_on_termination = true
-    device_name           = "/dev/sda1"
-    volume_size           = 50
-    volume_type           = "gp2"
+    device_name           = var.device_name
+    volume_size           = var.volume_size
+    volume_type           = var.volume_type
   }
 
   tags = {

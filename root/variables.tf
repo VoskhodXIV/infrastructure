@@ -33,3 +33,27 @@ variable "ssh_key_file" {
   type        = string
   default     = "ec2_ssh_key.pub"
 }
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "device_name" {
+  description = "EC2 instance device name"
+  type        = string
+  default     = "/dev/sda1"
+}
+
+variable "volume_size" {
+  description = "EC2 instance volume size"
+  type        = number
+  default     = 50
+}
+
+variable "volume_type" {
+  description = "EC2 instance volume type"
+  type        = string
+  default     = "gp2"
+}

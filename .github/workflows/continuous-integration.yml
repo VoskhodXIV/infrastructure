@@ -1,0 +1,50 @@
+name: Continuous Integration
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [master]
+  # push:
+  #   branches: [master]
+
+jobs:
+  tf_validate:
+    runs-on: ubuntu-latest
+    environment: ${{ vars.ENVIRONMENT }}
+    name: Configure AWS `ghactions` IAM user
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create Terraform variables
+        run: |
+          cd root && touch prod.tfvars
+          echo region=${{ vars.AWS_REGION }} >> prod.tfvars
+          echo environment=${{ vars.ENVIRONMENT }} >> prod.tfvars
+          echo vpc_cidr_block=${{ vars.VPC_CIDR_BLOCK }} >> prod.tfvars
+          echo public_subnets=${{ vars.PUBLIC_SUBNETS }} >> prod.tfvars
+          echo private_subnets=${{ vars.PRIVATE_SUBNETS }} >> prod.tfvars
+          # echo root_account_ids=${{ secrets.AMI_USERS }} >> prod.tfvars
+          # echo ami_prefix=${{ vars.AMI_PREFIX }} >> prod.tfvars
+          echo instance_type=${{vars.INSTANCE_TYPE}} >> prod.tfvars
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.DEV_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.DEV_AWS_SECRET_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Setup `Terraform`
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt
+        id: fmt
+        run: terraform fmt -check
+        continue-on-error: true
+
+      - name: Terraform Init
+        id: init
+        run: terraform init -backend=false
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform validate -json

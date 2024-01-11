@@ -26,4 +26,8 @@ module "ec2" {
   api_sg_id         = module.security_group.api_sg_id
   public_subnets_id = module.vpc.public_subnets_id
   ssh_key_name      = module.ssh.ssh_key_name
+  instance_type     = var.instance_type
+  device_name       = var.device_name
+  volume_size       = var.volume_size
+  volume_type       = var.volume_type
 }

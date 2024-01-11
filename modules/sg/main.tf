@@ -1,6 +1,6 @@
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group
 resource "aws_security_group" "api_sg" {
-  name        = "api security group"
+  name        = "api-sg"
   description = "Enable SSH,API,HTTP & HTTPS access on ports 22,1337,80 & 443"
   vpc_id      = var.vpc_id
 
@@ -45,4 +45,27 @@ resource "aws_security_group" "api_sg" {
   }
 }
 
-# TODO: Database port sg
+resource "aws_security_group" "db_sg" {
+  name        = "db-sg"
+  description = "Allow inbound traffic to 5432"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    description     = "open port 5432 to vpc"
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.api_sg.id]
+  }
+
+  # egress {
+  #   from_port   = 0
+  #   to_port     = 0
+  #   protocol    = -1
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  tags = {
+    Name = "database"
+  }
+}

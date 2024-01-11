@@ -6,3 +6,6 @@ variable "instance_type" {}
 variable "device_name" {}
 variable "volume_size" {}
 variable "volume_type" {}
+variable "database" {}
+variable "dbuser" {}
+variable "dbpassword" {}

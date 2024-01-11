@@ -15,6 +15,20 @@ module "security_group" {
   environment = var.environment
 }
 
+module "s3_bucket" {
+  source      = "../modules/s3"
+  environment = var.environment
+}
+
+module "rds" {
+  source             = "../modules/rds"
+  environment        = var.environment
+  private_subnets_id = module.vpc.private_subnets_id
+  db_sg_id           = module.security_group.db_sg_id
+  database           = var.database
+  dbuser             = var.dbuser
+}
+
 module "ssh" {
   source       = "../modules/ssh"
   ssh_key_file = var.ssh_key_file
@@ -30,4 +44,7 @@ module "ec2" {
   device_name       = var.device_name
   volume_size       = var.volume_size
   volume_type       = var.volume_type
+  database          = var.database
+  dbuser            = var.dbuser
+  dbpassword        = module.rds.dbpassword
 }

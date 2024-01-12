@@ -2,18 +2,22 @@
 # TODO: Use custom Packer-built AMI
 data "aws_ami" "ubuntu" {
   most_recent = true
+  owners      = var.owners
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = [var.ami_prefix]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
   }
 
   filter {
     name   = "virtualization-type"
     values = ["hvm"]
   }
-
-  owners = ["099720109477"] # Canonical
 }
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance
@@ -69,9 +73,9 @@ resource "aws_launch_template" "ec2_launch_template" {
 
   user_data = base64encode("${templatefile("../modules/ec2/userdata.sh", {
     ENVIRONMENT = "${var.environment}"
-    DATABASE    = "${var.database}",
-    DBUSER      = "${var.dbuser}",
-    DBPASSWORD  = "${var.dbpassword}",
+    DATABASE    = "${var.db.db_name}",
+    DBUSER      = "${var.db.username}",
+    DBPASSWORD  = "${var.db.password}",
   })}")
 
   tag_specifications {

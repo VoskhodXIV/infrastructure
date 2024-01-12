@@ -72,8 +72,10 @@ module "ec2" {
   volume_type        = var.volume_type
   database           = var.database
   dbuser             = var.dbuser
-  dbpassword         = module.rds.dbpassword
+  db                 = module.rds.db
   iam_ec2_s3_profile = module.iam.iam_ec2_s3_profile
+  owners             = var.owners
+  ami_prefix         = var.ami_prefix
 }
 
 module "autoscaling_group" {

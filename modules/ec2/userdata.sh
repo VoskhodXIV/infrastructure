@@ -1,8 +1,8 @@
 #!/bin/bash
 
 cd /home/ubuntu/webapp || exit
+mv .env .env.bak
 touch .env
-
 {
   echo "ENVIRONMENT=$ENVIRONMENT"
   echo "PORT=1337"

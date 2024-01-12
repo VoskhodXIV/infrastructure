@@ -11,3 +11,5 @@ device_name     = "/xxx/xxxx"
 volume_size     = xx
 volume_type     = "xxx"
 domain          = "xxxx.xxx"
+owners          = ["xxx", "xxx"]
+ami_prefix      = "xxx"

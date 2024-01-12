@@ -1,3 +1,3 @@
-output "dbpassword" {
-  value = random_password.dbpassword.result
+output "db" {
+  value = aws_db_instance.database
 }

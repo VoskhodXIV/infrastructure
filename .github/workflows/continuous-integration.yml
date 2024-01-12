@@ -31,6 +31,8 @@ jobs:
           echo volume_size=${{vars.VOLUME_SIZE}} >> prod.tfvars
           echo volume_type=${{vars.VOLUME_TYPE}} >> prod.tfvars
           echo domain=${{vars.DOMAIN}} >> prod.tfvars
+          echo owners=${{secrets.OWNERS}} >> prod.tfvars
+          echo ami_prefix=${{vars.AMI_PREFIX}} >> prod.tfvars
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

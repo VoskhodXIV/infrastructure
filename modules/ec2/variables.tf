@@ -8,5 +8,7 @@ variable "volume_size" {}
 variable "volume_type" {}
 variable "database" {}
 variable "dbuser" {}
-variable "dbpassword" {}
+variable "db" {}
 variable "iam_ec2_s3_profile" {}
+variable "owners" {}
+variable "ami_prefix" {}

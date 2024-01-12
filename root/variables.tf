@@ -46,6 +46,18 @@ variable "ssh_key_file" {
   default     = "ec2_ssh_key.pub"
 }
 
+variable "owners" {
+  description = "List of custom AMI owners"
+  type        = list(string)
+  default     = ["061920653777"]
+}
+
+variable "ami_prefix" {
+  description = "Custom AMI prefix for filtering AMIs"
+  type        = string
+  default     = "sid-*"
+}
+
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
